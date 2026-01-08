@@ -88,18 +88,16 @@ router.post("/cashfree-webhook", async (req, res) => {
     }
 
     // 3️⃣ CREATE DONATION ENTRY
-    await supabase.from("donations").insert([
-      {
-        donor_id: donor.id,
-        amount: order_amount,
-        currency: order_currency,
-        payment_status: "PAID",
-        payment_provider: "CASHFREE",
-        payment_id,
-        order_id,
-        donation_type: "ONLINE",
-      },
-    ])
+    await supabase.from("donations").insert({
+      donor_id: donor.id,
+      amount: order_amount,
+      currency: order_currency,
+      payment_status: "PAID",
+      payment_provider: "cashfree",
+      payment_id: payment_id,
+      order_id: order_id,
+      donation_type: "ONLINE",
+    });
 
     res.status(200).send("OK")
   } catch (err) {
